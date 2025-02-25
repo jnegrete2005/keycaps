@@ -25,11 +25,11 @@
 // TODO: Add support for adding a bevel/rounded edge to the top of keycaps.
 // TODO: Finish whole-keyboard generation support.
 
-use <keycaps.scad>
-use <stems.scad>
-use <legends.scad>
-use <utils.scad>
-use <profiles.scad>
+use <../keycaps.scad>
+use <../stems.scad>
+use <../legends.scad>
+use <../utils.scad>
+use <../profiles.scad>
 
 // Rendering resolution (32 is usually good enough)
 $fn = 32; // Mostly only applies to legends/fonts but increase as needed for greater resolution
@@ -43,7 +43,7 @@ $fn = 32; // Mostly only applies to legends/fonts but increase as needed for gre
 // ));
 // NOTE: I *hate* that OpenSCAD forces conditional assignment like that.  I can't stand the ternary operator!
 
-RENDER = ["keycap", "stem"];
+// RENDER = ["keycap", "stem"];
 // Supported values: keycap, stem, legends, row, row_stems, row_legends, custom
 // RENDER = ["%keycap", "stem"]; // Can be useful for visualizing the stem inside the keycap
 //RENDER = ["keycap"];
@@ -53,7 +53,7 @@ RENDER = ["keycap", "stem"];
 // RENDER = ["keycap", "stem", "legends"]; // For generating multi-material keycaps (using colorscad.sh)
 //RENDER = ["underset_mask"]; // A thin layer under the top of they keycap meant to be darkened for underset legends
 // Want to render a whole row of keycaps/stems/legends at a time?  You can do that here:
-// RENDER = ["row", "row_stems"]; // For making whole keyboards at a time (with whole-keyboard inlaid art!)
+RENDER = ["row", "row_stems"]; // For making whole keyboards at a time (with whole-keyboard inlaid art!)
 // RENDER = ["row"];
 //RENDER = ["row_legends"];
 //RENDER = ["row_stems"];
@@ -71,7 +71,7 @@ BETWEENSPACE = 0.8; // The Betweenspace:  The void between realms...  And keycap
 // If you want to make a keycap using a common profile set this to one of: dcs, dss, dsa, kat, kam, riskeycap, gem:
 KEY_PROFILE = "dcs"; // [riskeycap, gem, dsa, dcs, dss, kat, kam]
 // Any value other than a supported profile (e.g. "dsa") will use the globals specified below.  In other words, an empty KEY_PROFILE means "just use the values specified here in this file."
-KEY_ROW = 1; // NOTE: For a spacebar make sure you also set DISH_INVERT=true
+KEY_ROW = 3; // NOTE: For a spacebar make sure you also set DISH_INVERT=true
 // Some settings override profile settings but most will be ignored (if using a profile)
 KEY_HEIGHT = 9; // The Z (NOTE: Dish values may reduce this a bit as they carve themselves out)
 KEY_HEIGHT_EXTRA = 0.01; // If you're planning on sanding the keycap you can use this to make up for lost material (normally this is only useful when using a profile e.g. DSA)
@@ -176,7 +176,7 @@ HOMING_DOT_Z = -0.35; // 0 == Right at KEY_HEIGHT (dish type makes a big differe
 
 // LEGENDARY!
 LEGENDS = [
-    "<", "", ">"
+    "", "", "", "←"
 ];
 // NOTE: Legends might not look quite right until final render (F6)
 LEGEND_FONTS = [ // Each legend can use its own font. If not specified the first font definition will be used
@@ -208,9 +208,9 @@ LEGEND_ROTATION = [ // How to rotate each legend. If not specified defaults to [
     [0,0,180],
     [0,0,180],
     [0,0,180],
+    [65,0,180], // Example of how you'd put a legend on the front (try it!)
     [0,0,180],
     [0,0,180],
-    [50,0,180], // Example of how you'd put a legend on the front (try it!)
 ];
 LEGEND_TRANS2 = [ // Second translate() call (see note above)
     [0,0,0],
@@ -222,7 +222,7 @@ LEGEND_SCALE = [ // Want to shrink/stretch your legends on a particular axis?  D
     [1,1,1],
     [1,1,1],
     [1,1,1],
-    [1,1,1],
+    [1,1,1.1],
     [1,1,1],
     [1,1,1],
 ];
@@ -262,7 +262,12 @@ ROW=[
     [""],
     [""],
     [""],
-    ["", "", ""],
+    ["", "", "", "←"],
+    ["", "", "", "↓"],
+    ["", "", "", "→"],
+    [""],
+    ["´", "{", "¨"],
+    ["", "}", "Ç"],
 ];
 ROW_SPACING = KEY_UNIT; // You can change this to something like "KEY_HEIGHT+3" if printing keycaps on their side...
 //ROW_SPACING = KEY_HEIGHT+3;
